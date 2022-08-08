@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# usage: grofftoPDF hello.ms
+# assuming all goes well, it outputs hello.pdf
+
+if [ -z "$1" ]; then
+	echo "no"
+	exit
+fi
+
+file="$1"
+name=${file%.*} #remove file extension
+
+#Uncomment the below if grofftopdf is not installed
+#groff -e -t -p -ms "$file" > temp.ps
+#cupsfilter temp.ps > "$name.pdf"
+#rm temp.ps
+
+#comment this if above is uncommented
+groff -e -t -p -ms "$file" -T pdf > "$name.pdf"
+###
+program="zathura"
+command=$(pidof -x $program || echo "")
+if [ "$command" != "" ]; then
+	exit
+else
+	zathura "$name.pdf" &
+	exit
+fi
+###
+#the above block opens the document in Zathura if Zathura is not already
+#running. If Zathura is already running, the document is updated without
+#opening a new window.
+
+#to have the pdf open without these stipulations, comment everything between
+#the three ### and uncomment below
+#open "$name.pdf" &
+
