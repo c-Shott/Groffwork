@@ -1,4 +1,4 @@
-.so ../../../../.groff_macros
+.so <relative filepath to groff_macros_file>
 .TL
 Rhino Hunt Lab
 .AU
